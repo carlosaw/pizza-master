@@ -31,14 +31,15 @@ pizzaJson.map((item, index) => {// Faz a cópia mapeia e joga na tela
         c('.pizzaBig img').src = item.img;
         c('.pizzaInfo h1').innerHTML = item.name;//Pega os dados da pizza para o modal
         c('.pizzaInfo--desc').innerHTML = item.description;
-        c('.pizzaInfo--actualPrice').innerHTML = `${item.price.toLocaleString('pt-br',{style: 'currency', currency: 'BRL'})}`;
+
+       
 
         c('.pizzaInfo--size.selected').classList.remove('selected');// Remove item selecionado
 
         cs('.pizzaInfo--size').forEach((size, sizeIndex)=>{
             if(sizeIndex == 2) {//Reseta o Modal
                 size.classList.add('selected');//Mostra grande marcada no modal
-
+                c('.pizzaInfo--actualPrice').innerHTML = `${item.price.toLocaleString('pt-br',{style: 'currency', currency: 'BRL'})}`;
             }
             size.querySelector('span').innerHTML = pizzaJson[key].sizes[sizeIndex];
         });
@@ -68,6 +69,7 @@ function closeModal() {
 cs('.pizzaInfo--cancelButton, .pizzaInfo--cancelMobileButton').forEach((item)=>{
     item.addEventListener('click', closeModal);
 });
+
 // Ação de quantidade no modal
 c('.pizzaInfo--qtmenos').addEventListener('click', ()=>{
     if(modalQt > 1){
@@ -79,13 +81,33 @@ c('.pizzaInfo--qtmais').addEventListener('click', ()=>{
     modalQt++;
     c('.pizzaInfo--qt').innerHTML = modalQt;
 });
+
+
+
 // Seleção de Tamanhos
+
+
 cs('.pizzaInfo--size').forEach((size, sizeIndex)=>{
     size.addEventListener('click', ()=>{//Clicou num item desmarca tudo marca o seu
         c('.pizzaInfo--size.selected').classList.remove('selected');//tira todos
         size.classList.add('selected');// Marca o seu
+        if('.pizzaInfo--size.selected') {
+            pizzaJson.map((item, index) => {
+                if(sizeIndex == 2) {
+                    c('.pizzaInfo--actualPrice').innerHTML = `${item.price.toLocaleString('pt-br',{style: 'currency', currency: 'BRL'})}`;
+                }
+                if(sizeIndex == 1) {
+                    c('.pizzaInfo--actualPrice').innerHTML = `${item.priceM.toLocaleString('pt-br',{style: 'currency', currency: 'BRL'})}`;
+                }
+                if(sizeIndex == 0) {
+                    c('.pizzaInfo--actualPrice').innerHTML = `${item.priceP.toLocaleString('pt-br',{style: 'currency', currency: 'BRL'})}`;
+                } 
+            });
+            
+        }
     });
 });
+
 
 // Adicionar ao carrinho
 c('.pizzaInfo--addButton').addEventListener('click', ()=>{
