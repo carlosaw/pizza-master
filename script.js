@@ -17,7 +17,7 @@ pizzaJson.map((item, index) => {// Faz a cópia mapeia e joga na tela
   pi('.pizza-item--img img').src = item.img;
   // Preço formatado fixa 2 algarismos após a virgula
   pi('.pizza-item--price').innerHTML = `${item.price.toLocaleString('pt-br', { style: 'currency', currency: 'BRL' })}`;
-  /*.querySelector('.pizza-item--price').innerHTML = `R$ ${item.price.toFixed(2)}`;*/
+  
   pi('.pizza-item--name').innerHTML = item.name;
   pi('.pizza-item--desc').innerHTML = item.description;
   pi('a').addEventListener('click', (e) => {//Evento de clique na tag 'a'
@@ -84,39 +84,29 @@ c('.pizzaInfo--qtmais').addEventListener('click', () => {
 });
 
 
-
 // Seleção de Tamanhos
 cs('.pizzaInfo--size').forEach((size, sizeIndex) => {
   size.addEventListener('click', (e) => {//Clicou num item desmarca tudo marca o seu
     c('.pizzaInfo--size.selected').classList.remove('selected');//tira todos
-    size.classList.add('selected');// Marca o seu
+    // Marca o seu
+    size.classList.add('selected');
 
-    // Altera o preço conforme o tamanho
-    if ('.pizzaInfo--size.selected') {
-      pizzaJson.map((item, index) => {
-        if (sizeIndex == 2) {// Se for Grande
-          c('.pizzaInfo--actualPrice').innerHTML = `${item.price.toLocaleString('pt-br', { style: 'currency', currency: 'BRL' })}`;
-        }
-        if (sizeIndex == 1) {// Se for Média
-          c('.pizzaInfo--actualPrice').innerHTML = `${item.priceM.toLocaleString('pt-br', { style: 'currency', currency: 'BRL' })}`;
-        }
-        if (sizeIndex == 0) {// Se for Pequena
-          c('.pizzaInfo--actualPrice').innerHTML = `${item.priceP.toLocaleString('pt-br', { style: 'currency', currency: 'BRL' })}`;
-        }
-      });
-    }
+    console.log('Preços') ;
   });
 });
+
+
+
 
 // Adicionar ao carrinho
 c('.pizzaInfo--addButton').addEventListener('click', () => {
   //* Qual pizza?
-   console.log("Pizza: "+modalKey);
+  //console.log("Pizza: "+modalKey);
   //* Qual o tamanho?
   let size = parseInt(c('.pizzaInfo--size.selected').getAttribute('data-key'));
-  console.log("Tamanho: "+size);
+  //console.log("Tamanho: "+size);
   //* Quantas pizzas?
-  console.log('Quantidade: '+modalQt);
+  //console.log('Quantidade: '+modalQt);
 
   let indentifier = pizzaJson[modalKey].id + '@' + size;//Junta as qtdades pelo id
   //Retorna o index do produto
@@ -162,20 +152,23 @@ function updateCart() {
       // Pega item e exibe na tela carrinho 
       let pizzaItem = pizzaJson.find((item) => item.id == cart[i].id);//Q!ual pizza?
       console.log(pizzaItem);
-      subtotal += pizzaItem.price * cart[i].qt;
+      
 
       let cartItem = c('.models .cart--item').cloneNode(true);
 
       let pizzaSizeName;
-      switch (cart[i].size) {
+      switch(cart[i].size) {
         case 0:
           pizzaSizeName = 'P';
+          subtotal += pizzaItem.priceP * cart[i].qt;
           break;
         case 1:
           pizzaSizeName = 'M';
+          subtotal += pizzaItem.priceM * cart[i].qt;
           break;
         case 2:
           pizzaSizeName = 'G';
+          subtotal += pizzaItem.price * cart[i].qt;
           break;
       }
 
