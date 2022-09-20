@@ -2,6 +2,9 @@
 let modalQt = 1;// Começa com um.
 let cart = [];//Carrinho
 let modalKey = 0;// Qual pizza selecionada
+let priceG = 0;
+let priceM = 0;
+let priceP = 0;
 
 //Cria uma constante para querySelector
 const c = (el) => document.querySelector(el);
@@ -15,8 +18,11 @@ pizzaJson.map((item, index) => {// Faz a cópia mapeia e joga na tela
 
   pizzaItem.setAttribute('data-key', index);//Insere a pizza especifica no index
   pi('.pizza-item--img img').src = item.img;
+
+
   // Preço formatado fixa 2 algarismos após a virgula
   pi('.pizza-item--price').innerHTML = `${item.price.toLocaleString('pt-br', { style: 'currency', currency: 'BRL' })}`;
+
   
   pi('.pizza-item--name').innerHTML = item.name;
   pi('.pizza-item--desc').innerHTML = item.description;
@@ -31,7 +37,9 @@ pizzaJson.map((item, index) => {// Faz a cópia mapeia e joga na tela
     c('.pizzaBig img').src = item.img;
     c('.pizzaInfo h1').innerHTML = item.name;//Pega os dados da pizza para o modal
     c('.pizzaInfo--desc').innerHTML = item.description;
+
     c('.pizzaInfo--actualPrice').innerHTML = `${item.price.toLocaleString('pt-br', { style: 'currency', currency: 'BRL' })}`;
+    
     c('.pizzaInfo--size.selected').classList.remove('selected');// Remove item selecionado
 
     cs('.pizzaInfo--size').forEach((size, sizeIndex) => {
@@ -54,6 +62,7 @@ pizzaJson.map((item, index) => {// Faz a cópia mapeia e joga na tela
 
   // Preencher as informações em pizzaItem
   c('.pizza-area').append(pizzaItem);//Acrescenta na pizza-area os items
+  
 });
 
 
@@ -86,13 +95,24 @@ c('.pizzaInfo--qtmais').addEventListener('click', () => {
 
 // Seleção de Tamanhos
 cs('.pizzaInfo--size').forEach((size, sizeIndex) => {
+  
   size.addEventListener('click', (e) => {//Clicou num item desmarca tudo marca o seu
-    c('.pizzaInfo--size.selected').classList.remove('selected');//tira todos
-    // Marca o seu
-    size.classList.add('selected');
+    c('.pizzaInfo--size.selected').classList.remove('selected');//tira todos    
+    size.classList.add('selected');// Marca o seu 
 
-    console.log('Preços') ;
+    if(c('.pizzaInfo--size.selected')) {
+      
+      if(sizeIndex == 0) {
+        console.log('Pizza PEQUENA'+ ' ' + 'A pizza escolhida foi:' + modalKey);
+      } else if(sizeIndex == 1) {
+        console.log('Pizza MÉDIA'+ ' ' + modalKey);
+      } else {
+        console.log('Pizza GRANDE'+ ' ' + modalKey);
+      }
+    }
+    
   });
+  
 });
 
 
@@ -101,17 +121,17 @@ cs('.pizzaInfo--size').forEach((size, sizeIndex) => {
 // Adicionar ao carrinho
 c('.pizzaInfo--addButton').addEventListener('click', () => {
   //* Qual pizza?
-  //console.log("Pizza: "+modalKey);
+  console.log("Pizza: "+modalKey);
   //* Qual o tamanho?
   let size = parseInt(c('.pizzaInfo--size.selected').getAttribute('data-key'));
-  //console.log("Tamanho: "+size);
+  console.log("Tamanho: "+size);
   //* Quantas pizzas?
   //console.log('Quantidade: '+modalQt);
 
   let indentifier = pizzaJson[modalKey].id + '@' + size;//Junta as qtdades pelo id
   //Retorna o index do produto
   let key = cart.findIndex((item) => item.indentifier == indentifier);
-
+  
   if(key > -1) {// Se achou o item no carrinho
     cart[key].qt += modalQt;// Aumenta a quantidade do mesmo item
   } else {// Adiciona a pizza
@@ -151,7 +171,7 @@ function updateCart() {
     for (let i in cart) {
       // Pega item e exibe na tela carrinho 
       let pizzaItem = pizzaJson.find((item) => item.id == cart[i].id);//Q!ual pizza?
-      console.log(pizzaItem);
+      //console.log(pizzaItem);
       
 
       let cartItem = c('.models .cart--item').cloneNode(true);
