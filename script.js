@@ -2,9 +2,6 @@
 let modalQt = 1;// Começa com um.
 let cart = [];//Carrinho
 let modalKey = 0;// Qual pizza selecionada
-let priceG = 0;
-let priceM = 0;
-let priceP = 0;
 
 //Cria uma constante para querySelector
 const c = (el) => document.querySelector(el);
@@ -17,9 +14,8 @@ pizzaJson.map((item, index) => {// Faz a cópia mapeia e joga na tela
   let pi = (el) => pizzaItem.querySelector(el);
 
   pizzaItem.setAttribute('data-key', index);//Insere a pizza especifica no index
+
   pi('.pizza-item--img img').src = item.img;
-
-
   // Preço formatado fixa 2 algarismos após a virgula
   pi('.pizza-item--price').innerHTML = `${item.price.toLocaleString('pt-br', { style: 'currency', currency: 'BRL' })}`;
 
@@ -89,33 +85,39 @@ c('.pizzaInfo--qtmenos').addEventListener('click', () => {
 
 c('.pizzaInfo--qtmais').addEventListener('click', () => {
   modalQt++;
-  c('.pizzaInfo--qt').innerHTML = modalQt;   
+
+  c('.pizzaInfo--qt').innerHTML = modalQt;
+  console.log(modalQt);
+
+  let total = c('.pizzaInfo--actualPrice') * modalQt;
+  console.log(total);
 });
 
 
 // Seleção de Tamanhos
 cs('.pizzaInfo--size').forEach((size, sizeIndex) => {
   
-  size.addEventListener('click', (e) => {//Clicou num item desmarca tudo marca o seu
+  size.addEventListener('click', (e) => {//Clicoudesmarca tudo seleciona o seu
     c('.pizzaInfo--size.selected').classList.remove('selected');//tira todos    
-    size.classList.add('selected');// Marca o seu 
+    size.classList.add('selected');// Seleciona o seu 
 
-    if(c('.pizzaInfo--size.selected')) {
-      
-      if(sizeIndex == 0) {
-        console.log('Pizza PEQUENA'+ ' ' + 'A pizza escolhida foi:' + modalKey);
-      } else if(sizeIndex == 1) {
-        console.log('Pizza MÉDIA'+ ' ' + modalKey);
-      } else {
-        console.log('Pizza GRANDE'+ ' ' + modalKey);
-      }
-    }
-    
-  });
-  
+    // Pega o preço conforme o tamanho    
+    let priceG = pizzaJson[modalKey].price;
+    let priceM = pizzaJson[modalKey].priceM;
+    let priceP = pizzaJson[modalKey].priceP;
+    switch(sizeIndex) {
+      case 0:
+        c('.pizzaInfo--actualPrice').innerHTML = priceP.toLocaleString('pt-br', { style: 'currency', currency: 'BRL' });
+      break;
+      case 1:
+        c('.pizzaInfo--actualPrice').innerHTML = priceM.toLocaleString('pt-br', { style: 'currency', currency: 'BRL' });
+      break;
+      case 2:
+        c('.pizzaInfo--actualPrice').innerHTML = priceG.toLocaleString('pt-br', { style: 'currency', currency: 'BRL' });
+      break;
+    }                 
+  });  
 });
-
-
 
 
 // Adicionar ao carrinho
