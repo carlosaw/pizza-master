@@ -75,23 +75,32 @@ cs('.pizzaInfo--cancelButton, .pizzaInfo--cancelMobileButton').forEach((item) =>
   item.addEventListener('click', closeModal);
 });
 
+
 // Ação de quantidade no modal
 c('.pizzaInfo--qtmenos').addEventListener('click', () => {
   if (modalQt > 1) {
     modalQt--;
     c('.pizzaInfo--qt').innerHTML = modalQt;
+
+  // Tirando apenas a Pizza GRANDE
+  price = pizzaJson[modalKey].price;
+  total = modalQt * price;
+  c('.pizzaInfo--actualPrice').innerHTML = total.toLocaleString('pt-br', { style: 'currency', currency: 'BRL' });
   }
 });
 
 c('.pizzaInfo--qtmais').addEventListener('click', () => {
   modalQt++;
-
   c('.pizzaInfo--qt').innerHTML = modalQt;
-  console.log(modalQt);
 
-  let total = c('.pizzaInfo--actualPrice') * modalQt;
-  console.log(total);
+  // Somando apenas a Pizza GRANDE
+  price = pizzaJson[modalKey].price;
+  total = modalQt * price;
+  c('.pizzaInfo--actualPrice').innerHTML = total.toLocaleString('pt-br', { style: 'currency', currency: 'BRL' });
+
+  
 });
+
 
 
 // Seleção de Tamanhos
