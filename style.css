@@ -212,6 +212,17 @@ h1 {
     align-items:center;
 }
 .pizzaInfo--actualPrice {
+    display: block;
+    font-size:28px;
+    margin-right:30px;
+}
+.pizzaInfo--actualPriceM {
+    display: none;
+    font-size:28px;
+    margin-right:30px;
+}
+.pizzaInfo--actualPriceP {
+    display: none;
     font-size:28px;
     margin-right:30px;
 }
