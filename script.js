@@ -71,8 +71,7 @@ pizzaJson.map((item, index) => {// Faz a cópia mapeia e joga na tela
   
 });
 
-
-
+/*-------------------------------------------------*/
 
 // Eventos do Modal
 function closeModal() {
@@ -85,40 +84,45 @@ cs('.pizzaInfo--cancelButton, .pizzaInfo--cancelMobileButton').forEach((item) =>
   item.addEventListener('click', closeModal);
 });
 
-// Ação de quantidade no modal
+// Ação de clique em 'menos' quantidade no modal
 c('.pizzaInfo--qtmenos').addEventListener('click', () => {let mqt = modalQt;
   if (modalQt > 1) {
     modalQt--;
     c('.pizzaInfo--qt').innerHTML = modalQt;        
   }
 
-  // Subtrair preço conforme quantidade.
-  if(priceG) { 
-    // let modalTotal = modalQt - priceG;   
-    // c('.pizzaInfo--actualPrice').innerHTML = modalTotal.toLocaleString('pt-br', { style: 'currency', currency: 'BRL' });
-    console.log(priceG);
-  }  
-  
-});
-
-c('.pizzaInfo--qtmais').addEventListener('click', () => {
-  modalQt++;
-
-  c('.pizzaInfo--qt').innerHTML = modalQt;
-    
-  //c('.pizzaInfo--price').cloneNode('.pizzaInfo--actualPrice');
-  
-  // Somar Preço conforme Quantidade.
+  // Reduzir Preço conforme Quantidade.
   if(c('.pizzaInfo--actualPrice')) { 
-    let modalTotal = modalQt * priceG;   
+    let modalTotal = modalQt * pizzaJson[modalKey].price;   
     c('.pizzaInfo--actualPrice').innerHTML = modalTotal.toLocaleString('pt-br', { style: 'currency', currency: 'BRL' });    
   }  
   if(c('.pizzaInfo--actualPriceM')) {           
-    let modalTotalM = modalQt * priceM;    
+    let modalTotalM = modalQt * pizzaJson[modalKey].priceM;    
     c('.pizzaInfo--actualPriceM').innerHTML = modalTotalM.toLocaleString('pt-br', { style: 'currency', currency: 'BRL' });  
   }
   if(c('.pizzaInfo--actualPriceP')) {            
-    let modalTotalP = modalQt * priceP;    
+    let modalTotalP = modalQt * pizzaJson[modalKey].priceP;    
+    c('.pizzaInfo--actualPriceP').innerHTML = modalTotalP.toLocaleString('pt-br', { style: 'currency', currency: 'BRL' });  
+  }
+  
+});
+
+// Ação de clique em 'mais' quantidade no modal
+c('.pizzaInfo--qtmais').addEventListener('click', () => {
+  modalQt++;
+  c('.pizzaInfo--qt').innerHTML = modalQt;
+     
+  // Somar Preço conforme Quantidade.
+  if(c('.pizzaInfo--actualPrice')) { 
+    let modalTotal = modalQt * pizzaJson[modalKey].price;   
+    c('.pizzaInfo--actualPrice').innerHTML = modalTotal.toLocaleString('pt-br', { style: 'currency', currency: 'BRL' });    
+  }  
+  if(c('.pizzaInfo--actualPriceM')) {           
+    let modalTotalM = modalQt * pizzaJson[modalKey].priceM;    
+    c('.pizzaInfo--actualPriceM').innerHTML = modalTotalM.toLocaleString('pt-br', { style: 'currency', currency: 'BRL' });  
+  }
+  if(c('.pizzaInfo--actualPriceP')) {            
+    let modalTotalP = modalQt * pizzaJson[modalKey].priceP;    
     c('.pizzaInfo--actualPriceP').innerHTML = modalTotalP.toLocaleString('pt-br', { style: 'currency', currency: 'BRL' });  
   }
 
@@ -135,18 +139,21 @@ cs('.pizzaInfo--size').forEach((size, sizeIndex) => {
     // Pega o preço conforme o tamanho        
     switch(sizeIndex) {
       case 0:// Caso seja Pizza Pequena
+
         c('.pizzaInfo--actualPriceP').style.display = 'block';// mostra priceP
         c('.pizzaInfo--actualPrice').style.display = 'none';// Esconde priceG
         c('.pizzaInfo--actualPriceM').style.display = 'none';// Esconde priceM
-        c('.pizzaInfo--actualPriceP').innerHTML = priceP.toLocaleString('pt-br', { style: 'currency', currency: 'BRL' });
+        c('.pizzaInfo--actualPriceP').innerHTML = pizzaJson[modalKey].priceP.toLocaleString('pt-br', { style: 'currency', currency: 'BRL' });
       break;
-      case 1:// Caso seja Pizza Média
-      c('.pizzaInfo--actualPriceM').style.display = 'block';// mostra priceM
+      case 1:// Caso seja Pizza Média    
+        c('.pizzaInfo--actualPriceM').style.display = 'block';// mostra priceM
         c('.pizzaInfo--actualPrice').style.display = 'none';// Esconde priceG
         c('.pizzaInfo--actualPriceP').style.display = 'none';// Esconde priceP        
-        c('.pizzaInfo--actualPriceM').innerHTML = priceM.toLocaleString('pt-br', { style: 'currency', currency: 'BRL' });
+        c('.pizzaInfo--actualPriceM').innerHTML = pizzaJson[modalKey].priceM.toLocaleString('pt-br', { style: 'currency', currency: 'BRL' });
+        console.log(priceM);
       break;
       case 2:// Caso seja Pizza Grande
+        let priceG = pizzaJson[modalKey].price;
         c('.pizzaInfo--actualPrice').style.display = 'block';// mostra priceG
         c('.pizzaInfo--actualPriceM').style.display = 'none';// Esconde priceM
         c('.pizzaInfo--actualPriceP').style.display = 'none';// Esconde priceP
@@ -159,6 +166,10 @@ cs('.pizzaInfo--size').forEach((size, sizeIndex) => {
 
 // Adicionar ao carrinho
 c('.pizzaInfo--addButton').addEventListener('click', () => {
+
+  let modalTotal = modalQt * priceG;   
+    c('.pizzaInfo--actualPrice').innerHTML = modalTotal.toLocaleString('pt-br', { style: 'currency', currency: 'BRL' });
+
   //* Qual pizza?
   console.log("Pizza: "+modalKey);
   //* Qual o tamanho?
@@ -181,9 +192,13 @@ c('.pizzaInfo--addButton').addEventListener('click', () => {
       qt: modalQt
     });
   }
+  
   updateCart();// Atualiza os itens no carrinho
   closeModal();// Fecha o Modal
 });
+
+
+/*---------------------------------------*/
 
 // Eventos do Mobile
 c('.menu-openner').addEventListener('click', () => {
@@ -212,7 +227,6 @@ function updateCart() {
       let pizzaItem = pizzaJson.find((item) => item.id == cart[i].id);//Q!ual pizza?
       //console.log(pizzaItem);
       
-
       let cartItem = c('.models .cart--item').cloneNode(true);
 
       let pizzaSizeName;
