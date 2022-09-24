@@ -39,6 +39,7 @@ header {
     height:32px;
     display:none;
     font-size: 30px;
+    transition:all ease .9s;
 }
 
 aside {
@@ -49,6 +50,7 @@ aside {
     overflow-x:hidden;
 }
 aside.show {
+    transition:all ease .9s;
     width:30vw;
 }
 .cart--area {

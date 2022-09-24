@@ -224,9 +224,7 @@ function updateCart() {
 
     for (let i in cart) {
       // Pega item e exibe na tela carrinho 
-      let pizzaItem = pizzaJson.find((item) => item.id == cart[i].id);//Q!ual pizza?
-      //console.log(pizzaItem);
-      
+      let pizzaItem = pizzaJson.find((item) => item.id == cart[i].id);//Q!ual pizza?      
       let cartItem = c('.models .cart--item').cloneNode(true);
 
       let pizzaSizeName;
