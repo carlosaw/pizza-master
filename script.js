@@ -11,6 +11,10 @@ const priceG = pizzaJson[modalKey].price;
 const priceM = pizzaJson[modalKey].priceM;
 const priceP = pizzaJson[modalKey].priceP;
 
+const actualPriceG = c('.pizzaInfo--actualPrice');
+const actualPriceM = c('.pizzaInfo--actualPriceM');
+const actualPriceP = c('.pizzaInfo--actualPriceP');
+
 //Mapear o pizzaJson // Listagem das Pizzas
 pizzaJson.map((item, index) => {// Faz a cópia mapeia e joga na tela
   //console.log(item);
@@ -38,18 +42,18 @@ pizzaJson.map((item, index) => {// Faz a cópia mapeia e joga na tela
     c('.pizzaInfo h1').innerHTML = item.name;//Pega os dados da pizza para o modal
     c('.pizzaInfo--desc').innerHTML = item.description;
 
-    c('.pizzaInfo--actualPrice').innerHTML = `${item.price.toLocaleString('pt-br', { style: 'currency', currency: 'BRL' })}`;
-    c('.pizzaInfo--actualPriceM').innerHTML = `${item.priceM.toLocaleString('pt-br', { style: 'currency', currency: 'BRL' })}`;
-    c('.pizzaInfo--actualPriceP').innerHTML = `${item.priceP.toLocaleString('pt-br', { style: 'currency', currency: 'BRL' })}`;
+    actualPriceG.innerHTML = `${item.price.toLocaleString('pt-br', { style: 'currency', currency: 'BRL' })}`;
+    actualPriceM.innerHTML = `${item.priceM.toLocaleString('pt-br', { style: 'currency', currency: 'BRL' })}`;
+    actualPriceP.innerHTML = `${item.priceP.toLocaleString('pt-br', { style: 'currency', currency: 'BRL' })}`;
     
     c('.pizzaInfo--size.selected').classList.remove('selected');// Remove item selecionado
 
     cs('.pizzaInfo--size').forEach((size, sizeIndex) => {
       if (sizeIndex == 2) {//Reseta o Modal
         size.classList.add('selected');//Mostra grande marcada no modal
-        c('.pizzaInfo--actualPriceM').style.display = 'none';
-        c('.pizzaInfo--actualPriceP').style.display = 'none';
-        c('.pizzaInfo--actualPrice').style.display = 'block';
+        actualPriceM.style.display = 'none';
+        actualPriceP.style.display = 'none';
+        actualPriceG.style.display = 'block';
       }
       
       size.querySelector('span').innerHTML = pizzaJson[key].sizes[sizeIndex];
@@ -92,17 +96,17 @@ c('.pizzaInfo--qtmenos').addEventListener('click', () => {let mqt = modalQt;
   }
 
   // Reduzir Preço conforme Quantidade.
-  if(c('.pizzaInfo--actualPrice')) { 
+  if(actualPriceG) { 
     let modalTotal = modalQt * pizzaJson[modalKey].price;   
-    c('.pizzaInfo--actualPrice').innerHTML = modalTotal.toLocaleString('pt-br', { style: 'currency', currency: 'BRL' });    
+    actualPriceG.innerHTML = modalTotal.toLocaleString('pt-br', { style: 'currency', currency: 'BRL' });    
   }  
-  if(c('.pizzaInfo--actualPriceM')) {           
+  if(actualPriceM) {           
     let modalTotalM = modalQt * pizzaJson[modalKey].priceM;    
-    c('.pizzaInfo--actualPriceM').innerHTML = modalTotalM.toLocaleString('pt-br', { style: 'currency', currency: 'BRL' });  
+    actualPriceM.innerHTML = modalTotalM.toLocaleString('pt-br', { style: 'currency', currency: 'BRL' });  
   }
-  if(c('.pizzaInfo--actualPriceP')) {            
+  if(actualPriceP) {            
     let modalTotalP = modalQt * pizzaJson[modalKey].priceP;    
-    c('.pizzaInfo--actualPriceP').innerHTML = modalTotalP.toLocaleString('pt-br', { style: 'currency', currency: 'BRL' });  
+    actualPriceP.innerHTML = modalTotalP.toLocaleString('pt-br', { style: 'currency', currency: 'BRL' });  
   }
   
 });
@@ -113,17 +117,17 @@ c('.pizzaInfo--qtmais').addEventListener('click', () => {
   c('.pizzaInfo--qt').innerHTML = modalQt;
      
   // Somar Preço conforme Quantidade.
-  if(c('.pizzaInfo--actualPrice')) { 
+  if(actualPriceG) { 
     let modalTotal = modalQt * pizzaJson[modalKey].price;   
-    c('.pizzaInfo--actualPrice').innerHTML = modalTotal.toLocaleString('pt-br', { style: 'currency', currency: 'BRL' });    
+    actualPriceG.innerHTML = modalTotal.toLocaleString('pt-br', { style: 'currency', currency: 'BRL' });    
   }  
-  if(c('.pizzaInfo--actualPriceM')) {           
+  if(actualPriceM) {           
     let modalTotalM = modalQt * pizzaJson[modalKey].priceM;    
-    c('.pizzaInfo--actualPriceM').innerHTML = modalTotalM.toLocaleString('pt-br', { style: 'currency', currency: 'BRL' });  
+    actualPriceM.innerHTML = modalTotalM.toLocaleString('pt-br', { style: 'currency', currency: 'BRL' });  
   }
-  if(c('.pizzaInfo--actualPriceP')) {            
+  if(actualPriceP) {            
     let modalTotalP = modalQt * pizzaJson[modalKey].priceP;    
-    c('.pizzaInfo--actualPriceP').innerHTML = modalTotalP.toLocaleString('pt-br', { style: 'currency', currency: 'BRL' });  
+    actualPriceP.innerHTML = modalTotalP.toLocaleString('pt-br', { style: 'currency', currency: 'BRL' });  
   }
 
 });
@@ -139,25 +143,30 @@ cs('.pizzaInfo--size').forEach((size, sizeIndex) => {
     // Pega o preço conforme o tamanho        
     switch(sizeIndex) {
       case 0:// Caso seja Pizza Pequena
-
-        c('.pizzaInfo--actualPriceP').style.display = 'block';// mostra priceP
-        c('.pizzaInfo--actualPrice').style.display = 'none';// Esconde priceG
-        c('.pizzaInfo--actualPriceM').style.display = 'none';// Esconde priceM
-        c('.pizzaInfo--actualPriceP').innerHTML = pizzaJson[modalKey].priceP.toLocaleString('pt-br', { style: 'currency', currency: 'BRL' });
+        
+        actualPriceP.style.display = 'block';// mostra priceP
+        actualPriceG.style.display = 'none';// Esconde priceG
+        actualPriceM.style.display = 'none';// Esconde priceM
+        actualPriceP.innerHTML = pizzaJson[modalKey].priceP.toLocaleString('pt-br', { style: 'currency', currency: 'BRL' });
+        modalQt = 1;
+        c('.pizzaInfo--qt').innerHTML = 1;
       break;
       case 1:// Caso seja Pizza Média    
-        c('.pizzaInfo--actualPriceM').style.display = 'block';// mostra priceM
-        c('.pizzaInfo--actualPrice').style.display = 'none';// Esconde priceG
-        c('.pizzaInfo--actualPriceP').style.display = 'none';// Esconde priceP        
-        c('.pizzaInfo--actualPriceM').innerHTML = pizzaJson[modalKey].priceM.toLocaleString('pt-br', { style: 'currency', currency: 'BRL' });
-        console.log(priceM);
+        actualPriceM.style.display = 'block';// mostra priceM
+        actualPriceG.style.display = 'none';// Esconde priceG
+        actualPriceP.style.display = 'none';// Esconde priceP        
+        actualPriceM.innerHTML = pizzaJson[modalKey].priceM.toLocaleString('pt-br', { style: 'currency', currency: 'BRL' });
+        modalQt = 1;
+        c('.pizzaInfo--qt').innerHTML = 1;
       break;
       case 2:// Caso seja Pizza Grande
         let priceG = pizzaJson[modalKey].price;
-        c('.pizzaInfo--actualPrice').style.display = 'block';// mostra priceG
-        c('.pizzaInfo--actualPriceM').style.display = 'none';// Esconde priceM
-        c('.pizzaInfo--actualPriceP').style.display = 'none';// Esconde priceP
-        c('.pizzaInfo--actualPrice').innerHTML = priceG.toLocaleString('pt-br', { style: 'currency', currency: 'BRL' });
+        actualPriceG.style.display = 'block';// mostra priceG
+        actualPriceM.style.display = 'none';// Esconde priceM
+        actualPriceP.style.display = 'none';// Esconde priceP
+        actualPriceG.innerHTML = priceG.toLocaleString('pt-br', { style: 'currency', currency: 'BRL' });
+        modalQt = 1;
+        c('.pizzaInfo--qt').innerHTML = 1;
       break;
     }                 
   });  
@@ -168,7 +177,7 @@ cs('.pizzaInfo--size').forEach((size, sizeIndex) => {
 c('.pizzaInfo--addButton').addEventListener('click', () => {
 
   let modalTotal = modalQt * priceG;   
-    c('.pizzaInfo--actualPrice').innerHTML = modalTotal.toLocaleString('pt-br', { style: 'currency', currency: 'BRL' });
+    actualPriceG.innerHTML = modalTotal.toLocaleString('pt-br', { style: 'currency', currency: 'BRL' });
 
   //* Qual pizza?
   console.log("Pizza: "+modalKey);
