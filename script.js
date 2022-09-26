@@ -209,9 +209,9 @@ c('.pizzaInfo--addButton').addEventListener('click', () => {
 
 /*---------------------------------------*/
 
-// Eventos do Mobile
+// Quando clica no Carrinho
 c('.menu-openner').addEventListener('click', () => {
-  if (cart.length > 0) {
+  if (cart.length > 0) {// Se tiver item no carrinho abre
     c('aside').style.left = '0';
   }
 });
